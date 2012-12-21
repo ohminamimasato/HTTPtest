@@ -1,24 +1,49 @@
 package com.dainan.webcom;
 
-import android.os.Bundle;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
 import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+import android.os.Bundle;
+import android.widget.TextView;
 
 public class webcom1 extends Activity {
-
+	private TextView mView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webcom1);
+        mView=(TextView)findViewById(R.id.view);
+        mView.setText(new String(httpGet("http://www.yahoo.co.jp")));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_webcom1, menu);
-        return true;
-    }
+    public static String httpGet(String strURL){
+    	//
+    	try{
+    		    //
+    		    URL url=new URL(strURL);
+    		    URLConnection connection=url.openConnection();
+    		   //
+    		    connection.setDoInput(true);
+    		    InputStream stream=connection.getInputStream();
+    		    BufferedReader input=new BufferedReader(new InputStreamReader(stream));
+    		   //
+    		    String data="";
+    		    String tmp="";
+    		    		while((tmp=input.readLine()) !=null){
+    		    			data+=tmp;
+    		    		}
+    		   //
+    		     stream.close();
+    		     input.close();
+    		     return data;
 
-    
+    	}catch (Exception  e){
+    		    //
+    		return e.toString();
+    	    }
+    }
 }
