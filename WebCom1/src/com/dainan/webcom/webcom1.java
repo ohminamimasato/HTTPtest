@@ -21,28 +21,29 @@ public class webcom1 extends Activity {
     }
 
     public static String httpGet(String strURL){
-    	//
+    	//(1)トライキャッチによるエラー処理
     	try{
-    		    //
+    		    //(2)URLクラスを使って通信
     		    URL url=new URL(strURL);
     		    URLConnection connection=url.openConnection();
-    		   //
-    		    connection.setDoInput(true);
-    		    InputStream stream=connection.getInputStream();
+    		   //(3)動作を入力に設定
+    		    connection.setDoInput(true);    //データを入力することの宣言
+    		    InputStream stream=connection.getInputStream();   //(4)入力ストリームを取得
+    		   //(5)得られた入力ストリームをバッファリーダ(input）を使って読み出していく（ための設定）
     		    BufferedReader input=new BufferedReader(new InputStreamReader(stream));
-    		   //
+    		   //(6)データの取得処理
     		    String data="";
     		    String tmp="";
-    		    		while((tmp=input.readLine()) !=null){
-    		    			data+=tmp;
+    		    		while((tmp=input.readLine()) !=null){     //入力ストリームから1行ずつ読み込み、
+    		    			data+=tmp;                                       //dataに次々追加（バッファが空になるまで）
     		    		}
-    		   //
+    		   //(7)終了処理
     		     stream.close();
     		     input.close();
-    		     return data;
+    		     return data;         //dataを返却
 
     	}catch (Exception  e){
-    		    //
+    		    //(8)エラー処理
     		return e.toString();
     	    }
     }
