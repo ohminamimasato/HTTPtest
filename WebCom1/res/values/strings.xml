@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">WebCom1</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_webcom1">webcom1</string>
+
+</resources>
