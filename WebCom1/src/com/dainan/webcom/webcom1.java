@@ -17,8 +17,16 @@ public class webcom1 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webcom1);
         mView=(TextView)findViewById(R.id.view);
-        mView.setText(new String(httpGet("http://www.yahoo.co.jp")));
+        mView.setText(new String(httpGet(createURL())));
     }
+
+	public String createURL() {
+		String apiURL = "http://news.yahooapis.jp/NewsWebService/V2/topics?";
+		String appid = "xIKkJiWxg67Q6xX1bxyKFokTS8cEMPsvdG1PCyo6jz5K1yYsC5toV3vqkYP061Q2";
+		String category = "top";
+		return String.format("%sappid=%s&pickupcategory=%s", apiURL, appid,
+				category);
+	}
 
     public static String httpGet(String strURL){
     	//(1)トライキャッチによるエラー処理
