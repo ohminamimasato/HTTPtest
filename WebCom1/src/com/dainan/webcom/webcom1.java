@@ -1,9 +1,7 @@
 package com.dainan.webcom;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -13,6 +11,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Xml;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class webcom1 extends Activity {
@@ -24,12 +24,17 @@ public class webcom1 extends Activity {
 		static private int mArticleNum;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webcom1);
-        mView=(TextView)findViewById(R.id.view);
-        mView.setText(new String(httpGet(createURL())));
+        //
+        getArticle(createURL());
+        //
+        ListView list =(ListView)findViewById(R.id.ListView01);
+        //
+        list.setAdapter(new ArrayAdapter<String>(this,R.layout.rowitem,mArticleTitle));
     }
+
 
 	public String createURL() {
 		String apiURL = "http://news.yahooapis.jp/NewsWebService/V2/topics?";
@@ -39,29 +44,18 @@ public class webcom1 extends Activity {
 				category);
 	}
 
-	public static String httpGet(String strURL) {
-		// (1)try-catchによるエラー処理
+	public static void getArticle(String strURL){
 		try {
-			// (2)URLクラスを使って通信
-			URL url = new URL(strURL);
+			URL url =new URL(strURL);
 			URLConnection connection = url.openConnection();
-			// (3)動作を入力に設定
 			connection.setDoInput(true);
 			InputStream stream = connection.getInputStream();
 			readXML(stream);
-			String data="";
-			   for(int i=0;i<mArticleNum;i++){
-				   data+=mArticleTitle[i];
-			   }
-			// (5)終了処理
 			stream.close();
-			return data;
-		} catch (Exception e) {
-			// (6)エラー処理
-			return e.toString();
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-
 
 
     public static void readXML(InputStream stream)
