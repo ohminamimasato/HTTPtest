@@ -4,14 +4,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Xml;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,9 +37,11 @@ public class webcom1 extends Activity {
         setContentView(R.layout.activity_webcom1);
         //
         getArticle(createURL());
-        //
         ListView list =(ListView)findViewById(R.id.ListView01);
-        //
+        ArrayList<ListItem> arrayList=new ArrayList<ListItem>();
+        for(int i=0;i<mArticleNum;i++){
+        	   arrayList.add(new ListItem(mArticleTitle[i],mArticleURL[i]));
+        }
         list.setAdapter(new ArrayAdapter<String>(this,R.layout.rowitem,mArticleTitle));
     }
 
@@ -91,5 +101,57 @@ public class webcom1 extends Activity {
 		}
 
 	}
+
+    public class ListItem{
+    	   public String title;
+    	   public String url;
+
+    	   public ListItem(String title,String url){
+    		        this.title=title;
+    		        this.url=url;
+    	   }
+    }
+
+    public class ListArrayAdapter extends ArrayAdapter<ListItem> implements
+                     View.OnClickListener{
+    	private ArrayList<ListItem> listItem;
+
+    	public ListArrayAdapter(Context context,ArrayList<ListItem> listItem){
+    		       super(context,R.layout.rowitem,listItem);
+    		       this.listItem=listItem;
+    	}
+
+    	@Override
+    	public View getView(int position,View view,ViewGroup parent){
+    		//（１）レイアウトの指定
+    		ListItem item =listItem.get(position);
+    		Context context=getContext();
+    		LinearLayout linearLayout=new LinearLayout(context);
+    		view=linearLayout;
+    		TextView textView=new TextView(context);
+    		textView.setText(item.title);
+    		linearLayout.addView(textView);
+    		Button button=new Button(context);
+    		button.setText("GO");
+    		button.setTag(String.valueOf(position));
+    		button.setOnClickListener(this);
+    		linearLayout.addView(button,0);
+    		return view;
+    	}
+
+    	public void onClick(View view){
+    		//（２）クリックによる動作
+    		int tag=Integer.parseInt((String) view.getTag());
+    		ListItem item=listItem.get(tag);
+    		try{
+    			   Intent intent=new Intent("android.intent.action.VIEW",Uri
+    					                  .parse(item.url));
+    			   startActivity(intent);
+    		}catch(Exception e){
+    			e.printStackTrace();
+    		}
+    	}
+
+    }
 
 }
