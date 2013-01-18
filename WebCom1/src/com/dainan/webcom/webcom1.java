@@ -132,7 +132,7 @@ public class webcom1 extends Activity {
     		textView.setText(item.title);
     		linearLayout.addView(textView);
     		Button button=new Button(context);
-    		button.setText("GO");
+    		button.setText("詳細");
     		button.setTag(String.valueOf(position));
     		button.setOnClickListener(this);
     		linearLayout.addView(button,0);
