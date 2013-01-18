@@ -42,7 +42,7 @@ public class webcom1 extends Activity {
         for(int i=0;i<mArticleNum;i++){
         	   arrayList.add(new ListItem(mArticleTitle[i],mArticleURL[i]));
         }
-        list.setAdapter(new ArrayAdapter<String>(this,R.layout.rowitem,mArticleTitle));
+        list.setAdapter(new ListArrayAdapter(this,arrayList));
     }
 
 
