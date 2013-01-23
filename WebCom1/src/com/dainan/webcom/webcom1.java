@@ -76,25 +76,20 @@ public class webcom1 extends Activity {
 
 			int cntTitle = 0;
 			int cntAddress = 0;
-			for (int e = myxmlPullParser.getEventType(); e != XmlPullParser.END_DOCUMENT; e = myxmlPullParser
-					.next()) {
+			for (int e = myxmlPullParser.getEventType(); e != XmlPullParser.END_DOCUMENT; e = myxmlPullParser.next()) {
 				if (e == XmlPullParser.START_TAG) {
 					if (myxmlPullParser.getName().equals("ResultSet")) {
-						mArticleNum = Integer
-								.parseInt(myxmlPullParser.getAttributeValue(
-										null, "totalResultsReturned"));
+						mArticleNum = Integer.parseInt(myxmlPullParser.getAttributeValue(null, "totalResultsReturned"));
 						mArticleTitle = new String[mArticleNum];
 						mArticleURL = new String[mArticleNum];
 					} else if (myxmlPullParser.getName().equals("Title")) {
 						mArticleTitle[cntTitle] = myxmlPullParser.nextText();
 						cntTitle++;
-					} else if (myxmlPullParser.getName()
-							.equals("SmartphoneUrl")) {
+					} else if (myxmlPullParser.getName().equals("SmartphoneUrl")) {
 						mArticleURL[cntAddress] = myxmlPullParser.nextText();
 						cntAddress++;
 					}
 				}
-
 			}
 		} catch (XmlPullParserException e) {
 		} catch (IOException e) {
