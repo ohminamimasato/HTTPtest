@@ -92,7 +92,9 @@ public class webcom1 extends Activity {
 				}
 			}
 		} catch (XmlPullParserException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
